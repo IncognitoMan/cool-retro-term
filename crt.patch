@@ -1,0 +1,95 @@
+--- crt-src/app/qml/ApplicationSettings.qml
++++ ApplicationSettings.qml
+@@ -38,15 +38,15 @@
+     property int width: 1024
+     property int height: 768
+ 
+-    property bool fullscreen: false
+-    property bool showMenubar: true
++    property bool fullscreen: true
++    property bool showMenubar: false
+ 
+     property real windowOpacity: 1.0
+     property real ambientLight: 0.2
+     property real contrast: 0.85
+     property real brightness: 0.5
+ 
+-    property bool showTerminalSize: true
++    property bool showTerminalSize: false
+     property real windowScaling: 1.0
+ 
+     property real fps: 24
+@@ -56,30 +56,30 @@
+ 
+     // PROFILE SETTINGS ///////////////////////////////////////////////////////
+ 
+-    property bool useCustomCommand: false
+-    property string customCommand: ""
++    property bool useCustomCommand: true
++    property string customCommand: "bin/bash"
+ 
+     property string _backgroundColor: "#000000"
+-    property string _fontColor: "#ff8100"
++    property string _fontColor: "#0080ff"
+     property string saturatedColor: Utils.mix(Utils.strToColor("#FFFFFF"), Utils.strToColor(_fontColor), saturationColor * 0.5)
+     property color fontColor: Utils.mix(Utils.strToColor(saturatedColor), Utils.strToColor(_backgroundColor), 0.7 + (contrast * 0.3))
+     property color backgroundColor: Utils.mix(Utils.strToColor(_backgroundColor), Utils.strToColor(saturatedColor), 0.7 + (contrast * 0.3))
+ 
+-    property real staticNoise: 0.1
+-    property real screenCurvature: 0.1
+-    property real glowingLine: 0.2
+-    property real burnIn: 0.40
+-    property real bloom: 0.65
++    property real staticNoise: 0.05
++    property real screenCurvature: 0.0
++    property real glowingLine: 0.0
++    property real burnIn: 0.0
++    property real bloom: 0.5
+ 
+     property real bloomQuality: 0.5
+-    property real burnInQuality: 0.5
++    property real burnInQuality: 0.0
+ 
+-    property real chromaColor: 0.0
+-    property real saturationColor: 0.0
++    property real chromaColor: 1.0
++    property real saturationColor: 1.0
+ 
+-    property real jitter: 0.18
++    property real jitter: 0.05
+ 
+-    property real horizontalSync: 0.08
++    property real horizontalSync: 0.0
+     property real flickering: 0.1
+ 
+     property real rbgShift: 0.0
+@@ -92,7 +92,7 @@
+ 
+     // FONTS //////////////////////////////////////////////////////////////////
+ 
+-    property real fontScaling: 1.0
++    property real fontScaling: 0.7
+     property real fontWidth: 1.0
+ 
+     property bool lowResolutionFont: false
+@@ -189,8 +189,8 @@
+         return 0; // If the frame is not available default to 0.
+     }
+ 
+-    property string frameSource: "./frames/WhiteSimpleFrame.qml"
+-    property string frameName: "SIMPLE_WHITE_FRAME"
++    property string frameSource: ""
++    property string frameName: "NO_FRAME"
+ 
+     property bool _frameReflections: false
+     property bool reflectionsAllowed: true
+--- crt-src/app/main.cpp
++++ main.cpp
+@@ -36,6 +36,7 @@
+ #endif
+ 
+     QApplication app(argc, argv);
++    app.setOverrideCursor(Qt::BlankCursor);
+     QQmlApplicationEngine engine;
+     FileIO fileIO;
+ 
